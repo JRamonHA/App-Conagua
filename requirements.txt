@@ -1,0 +1,5 @@
+shiny
+shinywidgets
+plotly
+plotnine
+pandas
