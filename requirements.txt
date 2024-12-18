@@ -3,3 +3,4 @@ shinywidgets
 plotly
 plotnine
 pandas
+pathlib
