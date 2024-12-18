@@ -1,0 +1,30 @@
+{
+    "name": "app-conagua",
+    "version": "1.0.0",
+    "description": "Visualización interactiva de datos meteorológicos.",
+    "main": "index.js",
+    "scripts": {
+      "build": "tsc -b ./src/tsconfig.json",
+      "test": "jest"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/JRamonHA/App-Conagua.git"
+    },
+    "author": "JRamonHA",
+    "license": "ISC",
+    "dependencies": {},
+    "devDependencies": {
+      "@types/node": "^22.10.2",
+      "@types/jest": "^29.5.14",
+      "@types/mocha": "^10.0.10",
+      "@types/assert": "^1.5.0",
+      "@types/net": "^1.0.0",
+      "@types/path": "^0.11.0",
+      "@types/tty": "^1.0.0",
+      "@types/fs": "^0.0.0",
+      "@types/child_process": "^1.0.0",
+      "@types/worker_threads": "^2.0.0",
+      "@types/ps-list": "^6.2.1"
+    }
+  }
