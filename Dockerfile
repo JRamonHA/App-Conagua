@@ -10,8 +10,8 @@ COPY . /app
 # Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Puerto en el que corre la aplicación
-EXPOSE 8080
+# Expone el puerto en el que corre la aplicación
+EXPOSE 8501
 
 # Comando para ejecutar la aplicación
-CMD ["python", "app.py"]
+CMD ["shiny", "run", "app.py"]
