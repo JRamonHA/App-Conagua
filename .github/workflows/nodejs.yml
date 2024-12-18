@@ -14,6 +14,6 @@ jobs:
         node-version: '14'
     - run: npm install
     - run: npm install --save-dev @types/node @types/jest @types/mocha
-    - run: npm install --save-dev @types/assert @types/net @types/path @types/tty @types/fs @types/child_process @types/worker_threads @types/ps-list
+    - run: npm install --save-dev @types/assert @types/net @types/path @types/tty @types/fs @types/worker_threads @types/ps-list
     - run: npm run build
     - run: npm test
