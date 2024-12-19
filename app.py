@@ -139,7 +139,7 @@ def server(input: Inputs, output, session):
     def tmean_map():
         year = int(input.year_map_tmean())
         data = choropleth_data(data_Tmean, year, STATE_MAPPING, aggregation="mean")
-        return choropleth_map(data, GEOJSON_DATA, f"Temperatura media promedio {year}", "sunsetdark", "Temperatura (°C)")
+        return choropleth_map(data, GEOJSON_DATA, f"Temperatura media promedio {year}", "haline", "Temperatura (°C)")
     
     @render_widget
     def tmax_map():
@@ -273,7 +273,7 @@ def server(input: Inputs, output, session):
             title = "Promedio histórico de temperatura media mensual (2013-2024)"
 
         # Generar el heatmap
-        return heatmap(data, title, "sunsetdark", "Temperatura (°C)")
+        return heatmap(data, title, "haline", "Temperatura (°C)")
     
     @render_widget
     def tmax_hm():
