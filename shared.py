@@ -10,7 +10,7 @@ def load_data(file_name):
     """
     Carga un archivo CSV en un DataFrame y rellena los valores NaN con 0.
     """
-    return pd.read_csv(app_dir / file_name, index_col="time", parse_dates=True).fillna(0)
+    return pd.read_csv(app_dir / file_name, index_col="time", parse_dates=True)
 
 data_Lluv = load_data("data_Lluv.csv")
 data_Tmean = load_data("data_TMed.csv")

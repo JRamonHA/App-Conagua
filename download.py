@@ -29,6 +29,9 @@ def process_conagua_data(df, variable):
             state_column = 'ESTADO' if 'ESTADO' in df.columns else 'EDO'
             df = df[[state_column, month_column]]
             df = df.groupby(state_column).sum().T
+    
+    # Redondear los datos a 2 decimales
+    df = df.round(2)
     return df
 
 def read_conagua(path, variable):
