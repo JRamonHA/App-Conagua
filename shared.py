@@ -1,16 +1,16 @@
-from pathlib import Path
 import pandas as pd
 import json
 
 # ----- RUTAS Y CONFIGURACIÓN -----
-app_dir = Path(__file__).parent / 'data'
+app_dir = "./data/"
 
 # Cargar datasets
 def load_data(file_name):
     """
-    Carga un archivo CSV en un DataFrame y rellena los valores NaN con 0.
+    Carga un archivo CSV en un DataFrame.
     """
-    return pd.read_csv(app_dir / file_name, index_col="time", parse_dates=True)
+    file_path = app_dir + file_name
+    return pd.read_csv(file_path, index_col="time", parse_dates=True)
 
 data_Lluv = load_data("data_Lluv.csv")
 data_Tmean = load_data("data_TMed.csv")
@@ -38,9 +38,10 @@ STATE_MAPPING = {
 # Cargar archivo GeoJSON
 def load_geojson(file_name):
     """
-    Carga un archivo GeoJSON.
+    Carga un archivo GeoJSON .
     """
-    with open(app_dir / file_name, encoding="utf-8") as f:
+    file_path = app_dir + file_name
+    with open(file_path, encoding="utf-8") as f:
         return json.load(f)
 
 GEOJSON_DATA = load_geojson("Mexico.json")
