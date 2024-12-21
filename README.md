@@ -1,6 +1,6 @@
 # Explorador CONAGUA
 
-**Explorador CONAGUA** es una aplicación web diseñada para la visualización interactiva de resúmenes mensuales de **temperaturas** y **lluvia** en **México** durante los años **2013-2024**.
+**Explorador CONAGUA** es una aplicación web diseñada para la visualización interactiva de resúmenes mensuales de **temperaturas** y **lluvia** en **México** durante los años **2014-2024**.
 
 ## Funcionalidades
 

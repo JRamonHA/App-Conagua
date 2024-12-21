@@ -5,7 +5,7 @@ from plots import (
     line_plot, line_plot_data, 
     heatmap, heatmap_data
 )
-from shared import data_lluv, data_Tmean, data_Tmax, data_Tmin, STATE_MAPPING, GEOJSON_DATA
+from shared import data_Lluv, data_Tmean, data_Tmax, data_Tmin, STATE_MAPPING, GEOJSON_DATA
 
 # ----- INTERFAZ DE USUARIO -----
 app_ui = ui.page_navbar(
@@ -14,16 +14,16 @@ app_ui = ui.page_navbar(
         ui.navset_card_underline(
             ui.nav_panel("Mapa geográfico",
                 ui.input_select("year_map_rain", "Selecciona el año:",
-                                choices=[str(year) for year in data_lluv.index.year.unique()]),
+                                choices=[str(year) for year in data_Lluv.index.year.unique()]),
                 output_widget("rain_map"),
             ),
             ui.nav_panel("Gráfico",
                 ui.layout_columns(
                     ui.input_select("type_plot_rain", "Tipo de gráfico:", ["Anual", "Histórico"]),
                     ui.input_select("year_plot_rain", "Selecciona el año:",
-                                    choices=[str(year) for year in data_lluv.index.year.unique()]),
+                                    choices=[str(year) for year in data_Lluv.index.year.unique()]),
                     ui.input_selectize("states_rain", "Selecciona el estado:",
-                                    choices=list(data_lluv.columns), multiple=True),
+                                    choices=list(data_Lluv.columns), multiple=True),
                 ),
                 ui.output_plot("rain_plot"),
             ),
@@ -31,7 +31,7 @@ app_ui = ui.page_navbar(
                 ui.layout_columns(
                     ui.input_select("type_hm_rain", "Tipo de mapa:", ["Anual", "Histórico"]),
                     ui.input_select("year_hm_rain", "Selecciona el año:",
-                                    choices=[str(year) for year in data_lluv.index.year.unique()])
+                                    choices=[str(year) for year in data_Lluv.index.year.unique()])
                 ),
                 output_widget("rain_hm")
             ),
@@ -132,7 +132,7 @@ def server(input: Inputs, output, session):
     @render_widget
     def rain_map():
         year = int(input.year_map_rain())
-        data = choropleth_data(data_lluv, year, STATE_MAPPING, aggregation="sum")
+        data = choropleth_data(data_Lluv, year, STATE_MAPPING, aggregation="sum")
         return choropleth_map(data, GEOJSON_DATA, f"Precipitación anual {year}", "viridis_r", "Precipitación (mm)")
     
     @render_widget
@@ -166,11 +166,11 @@ def server(input: Inputs, output, session):
         
         if input.type_plot_rain() == "Anual":
             year = int(input.year_plot_rain())
-            data = line_plot_data(data_lluv, year=year, states=estados, aggregation="sum")
+            data = line_plot_data(data_Lluv, year=year, states=estados, aggregation="sum")
             title = f"Precipitación mensual acumulada en {year}"
             subtitle = "Distribución de lluvia total por mes"
         else:
-            data = line_plot_data(data_lluv, states=estados, aggregation="mean")
+            data = line_plot_data(data_Lluv, states=estados, aggregation="mean")
             title = "Promedio histórico de precipitación mensual (2013-2024)"
             subtitle = "Datos calculados a partir de los registros históricos"
         
@@ -249,11 +249,11 @@ def server(input: Inputs, output, session):
         if input.type_hm_rain() == "Anual":
             # Obtener el año seleccionado
             year = int(input.year_hm_rain())
-            data = heatmap_data(data_lluv, year=year, aggregation="sum", historical=False)
+            data = heatmap_data(data_Lluv, year=year, aggregation="sum", historical=False)
             title = f"Precipitación mensual acumulada en {year}"
         else:
             # Calcular promedio histórico
-            data = heatmap_data(data_lluv, aggregation="mean", historical=True)
+            data = heatmap_data(data_Lluv, aggregation="mean", historical=True)
             title = "Promedio histórico de precipitación mensual (2013-2024)"
 
         # Generar el heatmap

@@ -12,10 +12,10 @@ def load_data(file_name):
     """
     return pd.read_csv(app_dir / file_name, index_col="time", parse_dates=True).fillna(0)
 
-data_lluv = load_data("data_lluv.csv")
-data_Tmean = load_data("data_Tmean.csv")
-data_Tmax = load_data("data_Tmax.csv")
-data_Tmin = load_data("data_Tmin.csv")
+data_Lluv = load_data("data_Lluv.csv")
+data_Tmean = load_data("data_TMed.csv")
+data_Tmax = load_data("data_TMax.csv")
+data_Tmin = load_data("data_TMin.csv")
 
 # Configuración de nombres de meses
 MESES = [
