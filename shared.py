@@ -1,15 +1,16 @@
 import pandas as pd
 import json
+from pathlib import Path
 
 # ----- RUTAS Y CONFIGURACIÓN -----
-app_dir = "./data/"
+app_dir = Path("./data/")
 
 # Cargar datasets
 def load_data(file_name):
     """
     Carga un archivo CSV en un DataFrame.
     """
-    file_path = app_dir + file_name
+    file_path = app_dir / file_name
     return pd.read_csv(file_path, index_col="time", parse_dates=True)
 
 data_Lluv = load_data("data_Lluv.csv")
@@ -38,10 +39,10 @@ STATE_MAPPING = {
 # Cargar archivo GeoJSON
 def load_geojson(file_name):
     """
-    Carga un archivo GeoJSON .
+    Carga un archivo GeoJSON.
     """
-    file_path = app_dir + file_name
-    with open(file_path, encoding="utf-8") as f:
+    file_path = app_dir / file_name
+    with file_path.open(encoding="utf-8") as f:
         return json.load(f)
 
 GEOJSON_DATA = load_geojson("Mexico.json")
@@ -52,7 +53,6 @@ def month_names():
     Devuelve la lista de nombres de los meses.
     """
     return MESES
-
 
 def state_abbreviations(data):
     """

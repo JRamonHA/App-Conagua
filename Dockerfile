@@ -1,4 +1,4 @@
-FROM python:3.11-slim-bullseye
+FROM python:3.12-slim-bullseye
 
 WORKDIR /app
 
@@ -11,4 +11,4 @@ RUN python download.py
 
 EXPOSE 8080
 
-CMD ["shiny", "run", "app.py"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080"]
