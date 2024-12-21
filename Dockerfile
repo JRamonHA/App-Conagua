@@ -1,18 +1,13 @@
-FROM python:3.12.8-slim
+FROM python:3.12-slim-bullseye
 
 WORKDIR /app
 
-COPY . /app
-
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libssl-dev \
-    libcurl4-openssl-dev \
-    libgeos-dev \
-    && apt-get clean
+COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 8000
+COPY . .
 
-CMD ["shiny", "run", "--host", "0.0.0.0", "app.py"]
+EXPOSE 8080
+
+CMD ["shiny", "run", "app.py"]
