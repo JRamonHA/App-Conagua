@@ -171,7 +171,7 @@ def server(input: Inputs, output, session):
             subtitle = "Distribución de lluvia total por mes"
         else:
             data = line_plot_data(data_Lluv, states=estados, aggregation="mean")
-            title = "Promedio histórico de precipitación mensual (2013-2024)"
+            title = "Promedio histórico de precipitación mensual (2014-2024)"
             subtitle = "Datos calculados a partir de los registros históricos"
         
         return line_plot(data, title, subtitle, "Precipitación (mm)")
@@ -193,7 +193,7 @@ def server(input: Inputs, output, session):
             subtitle = "Variación de la temperatura media por mes"
         else:
             data = line_plot_data(data_Tmean, states=estados, aggregation="mean")
-            title = "Promedio histórico de temperatura media mensual (2013-2024)"
+            title = "Promedio histórico de temperatura media mensual (2014-2024)"
             subtitle = "Datos calculados a partir de los registros históricos"
         
         return line_plot(data, title, subtitle, "Temperatura (°C)")
@@ -215,7 +215,7 @@ def server(input: Inputs, output, session):
             subtitle = "Variación de la temperatura máxima por mes"
         else:
             data = line_plot_data(data_Tmax, states=estados, aggregation="mean")
-            title = "Promedio histórico de temperatura máxima mensual (2013-2024)"
+            title = "Promedio histórico de temperatura máxima mensual (2014-2024)"
             subtitle = "Datos calculados a partir de los registros históricos"
         
         return line_plot(data, title, subtitle, "Temperatura (°C)")
@@ -237,7 +237,7 @@ def server(input: Inputs, output, session):
             subtitle = "Variación de la temperatura mínima por mes"
         else:
             data = line_plot_data(data_Tmin, states=estados, aggregation="mean")
-            title = "Promedio histórico de temperatura mínima mensual (2013-2024)"
+            title = "Promedio histórico de temperatura mínima mensual (2014-2024)"
             subtitle = "Datos calculados a partir de los registros históricos"
         
         return line_plot(data, title, subtitle, "Temperatura (°C)")
@@ -254,7 +254,7 @@ def server(input: Inputs, output, session):
         else:
             # Calcular promedio histórico
             data = heatmap_data(data_Lluv, aggregation="mean", historical=True)
-            title = "Promedio histórico de precipitación mensual (2013-2024)"
+            title = "Promedio histórico de precipitación mensual (2014-2024)"
 
         # Generar el heatmap
         return heatmap(data, title, "viridis", "Precipitación (mm)")
@@ -270,7 +270,7 @@ def server(input: Inputs, output, session):
         else:
             # Calcular promedio histórico
             data = heatmap_data(data_Tmean, aggregation="mean", historical=True)
-            title = "Promedio histórico de temperatura media mensual (2013-2024)"
+            title = "Promedio histórico de temperatura media mensual (2014-2024)"
 
         # Generar el heatmap
         return heatmap(data, title, "haline", "Temperatura (°C)")
@@ -286,7 +286,7 @@ def server(input: Inputs, output, session):
         else:
             # Calcular promedio histórico
             data = heatmap_data(data_Tmax, aggregation="mean", historical=True)
-            title = "Promedio histórico de temperatura máxima mensual (2013-2024)"
+            title = "Promedio histórico de temperatura máxima mensual (2014-2024)"
 
         # Generar el heatmap
         return heatmap(data, title, "oranges", "Temperatura (°C)")
@@ -302,7 +302,7 @@ def server(input: Inputs, output, session):
         else:
             # Calcular promedio histórico
             data = heatmap_data(data_Tmin, aggregation="mean", historical=True)
-            title = "Promedio histórico de temperatura mínima mensual (2013-2024)"
+            title = "Promedio histórico de temperatura mínima mensual (2014-2024)"
 
         # Generar el heatmap
         return heatmap(data, title, "blues", "Temperatura (°C)")
