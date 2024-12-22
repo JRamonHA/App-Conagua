@@ -28,7 +28,7 @@ def process_conagua_data(df, variable):
         if month_column:
             state_column = 'ESTADO' if 'ESTADO' in df.columns else 'EDO'
             df = df[[state_column, month_column]]
-            df = df.groupby(state_column).sum().T
+            df = df.groupby(state_column).mean().T
     
     # Redondear los datos a 2 decimales
     df = df.round(2)
