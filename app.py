@@ -1,5 +1,7 @@
 from shiny import App, Inputs, reactive, render, ui
 from shinywidgets import render_widget, output_widget
+import faicons
+import io
 from plots import (
     choropleth_map, choropleth_data, 
     line_plot, line_plot_data, 
@@ -35,6 +37,15 @@ app_ui = ui.page_navbar(
                 ),
                 output_widget("rain_hm")
             ),
+            ui.nav_panel("Datos",
+                ui.card(ui.card_header(
+                    ui.span(ui.output_text("rain_title")),
+                    ui.download_link("rain_download", "Descargar archivo",
+                                     icon=faicons.icon_svg("download"), class_="btn btn-primary btn-sm"),
+                                     class_="d-flex justify-content-between align-items-center"),
+                    ui.output_data_frame("rain_data")
+                ),
+            ),
             title="Resúmenes anuales y mensuales de lluvia",
         )
     ),
@@ -62,6 +73,15 @@ app_ui = ui.page_navbar(
                                     choices=[str(year) for year in data_Tmean.index.year.unique()])
                 ),
                 output_widget("tmean_hm")
+            ),
+            ui.nav_panel("Datos",
+                ui.card(ui.card_header(
+                    ui.span(ui.output_text("tmean_title")),
+                    ui.download_link("tmean_download", "Descargar archivo",
+                                     icon=faicons.icon_svg("download"), class_="btn btn-primary btn-sm"),
+                                     class_="d-flex justify-content-between align-items-center"),
+                    ui.output_data_frame("tmean_data")
+                ),
             ),
             title="Resúmenes anuales y mensuales de temperatura media",
         )
@@ -91,6 +111,15 @@ app_ui = ui.page_navbar(
                 ),
                 output_widget("tmax_hm")
             ),
+            ui.nav_panel("Datos",
+                ui.card(ui.card_header(
+                    ui.span(ui.output_text("tmax_title")),
+                    ui.download_link("tmax_download", "Descargar archivo",
+                                     icon=faicons.icon_svg("download"), class_="btn btn-primary btn-sm"),
+                                     class_="d-flex justify-content-between align-items-center"),
+                    ui.output_data_frame("tmax_data")
+                ),
+            ),
             title="Resúmenes anuales y mensuales de temperatura máxima",
         )
     ),
@@ -118,6 +147,15 @@ app_ui = ui.page_navbar(
                                     choices=[str(year) for year in data_Tmin.index.year.unique()])
                 ),
                 output_widget("tmin_hm")
+            ),
+            ui.nav_panel("Datos",
+                ui.card(ui.card_header(
+                    ui.span(ui.output_text("tmin_title")),
+                    ui.download_link("tmin_download", "Descargar archivo",
+                                     icon=faicons.icon_svg("download"), class_="btn btn-primary btn-sm"),
+                                     class_="d-flex justify-content-between align-items-center"),
+                    ui.output_data_frame("tmin_data")
+                ),
             ),
             title="Resúmenes anuales y mensuales de temperatura mínima",
         )
@@ -306,6 +344,71 @@ def server(input: Inputs, output, session):
 
         # Generar el heatmap
         return heatmap(data, title, "blues", "Temperatura (°C)")
+
+    # --- DATAFRAME ---
+    @render.data_frame
+    def rain_data():
+        df = data_Lluv.reset_index()
+        return df
+
+    @render.text
+    def rain_title():
+        return "data_Lluv.csv"
+    
+    @render.download(filename=lambda: "data_Lluv.csv")
+    def rain_download():
+        df = data_Lluv.reset_index()
+        with io.StringIO() as buf:
+            df.to_csv(buf, index=False)
+            yield buf.getvalue().encode()
+
+    @render.data_frame
+    def tmean_data():
+        df = data_Tmean.reset_index()
+        return df
+
+    @render.text
+    def tmean_title():
+        return "data_Tmean.csv"
+    
+    @render.download(filename=lambda: "data_Tmean.csv")
+    def tmean_download():
+        df = data_Tmean.reset_index()
+        with io.StringIO() as buf:
+            df.to_csv(buf, index=False)
+            yield buf.getvalue().encode()
+
+    @render.data_frame
+    def tmax_data():
+        df = data_Tmax.reset_index()
+        return df
+
+    @render.text
+    def tmax_title():
+        return "data_Tmax.csv"
+    
+    @render.download(filename=lambda: "data_Tmax.csv")
+    def tmax_download():
+        df = data_Tmax.reset_index()
+        with io.StringIO() as buf:
+            df.to_csv(buf, index=False)
+            yield buf.getvalue().encode()
+
+    @render.data_frame
+    def tmin_data():
+        df = data_Tmin.reset_index()
+        return df
+
+    @render.text
+    def tmin_title():
+        return "data_Tmin.csv"
+    
+    @render.download(filename=lambda: "data_Tmin.csv")
+    def tmin_download():
+        df = data_Tmin.reset_index()
+        with io.StringIO() as buf:
+            df.to_csv(buf, index=False)
+            yield buf.getvalue().encode()
 
 # ----- EJECUCIÓN DE LA APLICACIÓN -----
 app = App(app_ui, server)

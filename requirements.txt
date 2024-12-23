@@ -1,5 +1,6 @@
 shiny
 shinywidgets
+faicons
 plotly
 plotnine
 pandas
