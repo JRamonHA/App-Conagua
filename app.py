@@ -17,7 +17,7 @@ app_ui = ui.page_navbar(
             ui.nav_panel("Mapa geográfico",
                 ui.input_select("year_map_rain", "Selecciona el año:",
                                 choices=[str(year) for year in data_Lluv.index.year.unique()]),
-                output_widget("rain_map"),
+                output_widget("rain_map")
             ),
             ui.nav_panel("Gráfico",
                 ui.layout_columns(
@@ -27,7 +27,7 @@ app_ui = ui.page_navbar(
                     ui.input_selectize("states_rain", "Selecciona el estado:",
                                     choices=list(data_Lluv.columns), multiple=True),
                 ),
-                ui.output_plot("rain_plot"),
+                ui.output_plot("rain_plot")
             ),
             ui.nav_panel("Mapa de calor",
                 ui.layout_columns(
@@ -54,7 +54,7 @@ app_ui = ui.page_navbar(
             ui.nav_panel("Mapa geográfico",
                 ui.input_select("year_map_tmean", "Selecciona el año:",
                                 choices=[str(year) for year in data_Tmean.index.year.unique()]),
-                output_widget("tmean_map"),
+                output_widget("tmean_map")
             ),
             ui.nav_panel("Gráfico",
                 ui.layout_columns(
@@ -64,7 +64,7 @@ app_ui = ui.page_navbar(
                     ui.input_selectize("states_tmean", "Selecciona el estado:",
                                     choices=list(data_Tmean.columns), multiple=True),
                 ),
-                ui.output_plot("tmean_plot"),
+                ui.output_plot("tmean_plot")
             ),
             ui.nav_panel("Mapa de calor",
                 ui.layout_columns(
@@ -91,7 +91,7 @@ app_ui = ui.page_navbar(
             ui.nav_panel("Mapa geográfico",
                 ui.input_select("year_map_tmax", "Selecciona el año:",
                                 choices=[str(year) for year in data_Tmax.index.year.unique()]),
-                output_widget("tmax_map"),
+                output_widget("tmax_map")
             ),
             ui.nav_panel("Gráfico",
                 ui.layout_columns(
@@ -101,7 +101,7 @@ app_ui = ui.page_navbar(
                     ui.input_selectize("states_tmax", "Selecciona el estado:",
                                     choices=list(data_Tmax.columns), multiple=True),
                 ),
-                ui.output_plot("tmax_plot"),
+                ui.output_plot("tmax_plot")
             ),
             ui.nav_panel("Mapa de calor",
                 ui.layout_columns(
@@ -128,7 +128,7 @@ app_ui = ui.page_navbar(
             ui.nav_panel("Mapa geográfico",
                 ui.input_select("year_map_tmin", "Selecciona el año:",
                                 choices=[str(year) for year in data_Tmin.index.year.unique()]),
-                output_widget("tmin_map"),
+                output_widget("tmin_map")
             ),
             ui.nav_panel("Gráfico",
                 ui.layout_columns(
@@ -138,7 +138,7 @@ app_ui = ui.page_navbar(
                     ui.input_selectize("states_tmin", "Selecciona el estado:",
                                     choices=list(data_Tmin.columns), multiple=True),
                 ),
-                ui.output_plot("tmin_plot"),
+                ui.output_plot("tmin_plot")
             ),
             ui.nav_panel("Mapa de calor",
                 ui.layout_columns(
