@@ -1,3 +1,6 @@
+from pathlib import Path
+import pandas as pd
+import json
 from shiny import App, Inputs, reactive, render, ui
 from shinywidgets import render_widget, output_widget
 import faicons
@@ -7,7 +10,13 @@ from plots import (
     line_plot, line_plot_data, 
     heatmap, heatmap_data
 )
-from shared import data_Lluv, data_Tmean, data_Tmax, data_Tmin, STATE_MAPPING, GEOJSON_DATA
+from shared import STATE_MAPPING
+
+data_Lluv = pd.read_csv(Path(__file__).parent / "data_Lluv.csv", index_col="time", parse_dates=True)
+data_Tmean = pd.read_csv(Path(__file__).parent / "data_TMed.csv", index_col="time", parse_dates=True)
+data_Tmax = pd.read_csv(Path(__file__).parent / "data_TMax.csv", index_col="time", parse_dates=True)
+data_Tmin = pd.read_csv(Path(__file__).parent / "data_TMin.csv", index_col="time", parse_dates=True)
+GEOJSON_DATA = json.load((Path(__file__).parent / "Mexico.json").open(encoding="utf-8"))
 
 # ----- INTERFAZ DE USUARIO -----
 app_ui = ui.page_navbar(
@@ -206,13 +215,11 @@ def server(input: Inputs, output, session):
             year = int(input.year_plot_rain())
             data = line_plot_data(data_Lluv, year=year, states=estados, aggregation="sum")
             title = f"Precipitación mensual acumulada en {year}"
-            subtitle = "Distribución de lluvia total por mes"
         else:
             data = line_plot_data(data_Lluv, states=estados, aggregation="mean")
             title = "Promedio histórico de precipitación mensual (2014-2024)"
-            subtitle = "Datos calculados a partir de los registros históricos"
         
-        return line_plot(data, title, subtitle, "Precipitación (mm)")
+        return line_plot(data, title, "Precipitación (mm)")
         
     @reactive.calc
     def selected_states_tmean():
@@ -228,13 +235,11 @@ def server(input: Inputs, output, session):
             year = int(input.year_plot_tmean())
             data = line_plot_data(data_Tmean, year=year, states=estados, aggregation="sum")
             title = f"Temperatura media promedio en {year}"
-            subtitle = "Variación de la temperatura media por mes"
         else:
             data = line_plot_data(data_Tmean, states=estados, aggregation="mean")
             title = "Promedio histórico de temperatura media mensual (2014-2024)"
-            subtitle = "Datos calculados a partir de los registros históricos"
         
-        return line_plot(data, title, subtitle, "Temperatura (°C)")
+        return line_plot(data, title, "Temperatura (°C)")
     
     @reactive.calc
     def selected_states_tmax():
@@ -250,13 +255,11 @@ def server(input: Inputs, output, session):
             year = int(input.year_plot_tmax())
             data = line_plot_data(data_Tmax, year=year, states=estados, aggregation="sum")
             title = f"Temperatura máxima promedio en {year}"
-            subtitle = "Variación de la temperatura máxima por mes"
         else:
             data = line_plot_data(data_Tmax, states=estados, aggregation="mean")
             title = "Promedio histórico de temperatura máxima mensual (2014-2024)"
-            subtitle = "Datos calculados a partir de los registros históricos"
         
-        return line_plot(data, title, subtitle, "Temperatura (°C)")
+        return line_plot(data, title, "Temperatura (°C)")
     
     @reactive.calc
     def selected_states_tmin():
@@ -272,13 +275,11 @@ def server(input: Inputs, output, session):
             year = int(input.year_plot_tmin())
             data = line_plot_data(data_Tmin, year=year, states=estados, aggregation="sum")
             title = f"Temperatura mínima promedio en {year}"
-            subtitle = "Variación de la temperatura mínima por mes"
         else:
             data = line_plot_data(data_Tmin, states=estados, aggregation="mean")
             title = "Promedio histórico de temperatura mínima mensual (2014-2024)"
-            subtitle = "Datos calculados a partir de los registros históricos"
         
-        return line_plot(data, title, subtitle, "Temperatura (°C)")
+        return line_plot(data, title, "Temperatura (°C)")
 
     # --- HEATMAP ---
     @render_widget

@@ -1,6 +1,6 @@
 import plotly.express as px
 from plotnine import (
-    ggplot, aes, geom_line, geom_point, labs, theme_minimal, scale_x_continuous, theme
+    ggplot, aes, element_blank, geom_line, geom_point, labs, scale_x_continuous, theme_minimal, theme
 )
 import pandas as pd
 from shared import MESES
@@ -62,7 +62,7 @@ def choropleth_data(data, year, state_mapping, aggregation="mean"):
 
 # ----- FUNCIONES PARA GRÁFICAS -----
 
-def line_plot(df_plot, title, subtitle, y_label):
+def line_plot(df_plot, title, y_label):
     """
     Genera un gráfico de líneas usando plotnine.
 
@@ -79,10 +79,13 @@ def line_plot(df_plot, title, subtitle, y_label):
         ggplot(df_plot, aes(x="Mes", y="Value", color="Estado"))
         + geom_line(size=1.25)
         + geom_point(size=2.5)
-        + labs(title=title, subtitle=subtitle, x="Mes", y=y_label)
+        + labs(title=title, y=y_label)
         + scale_x_continuous(breaks=range(1, 13), labels=MESES)
         + theme_minimal()
-        + theme(figure_size=(10, 4))
+        + theme(
+            figure_size=(10, 4),
+            axis_title_x=element_blank(),
+        )
     )
 
 
