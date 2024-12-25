@@ -104,7 +104,7 @@ def save_to_csv(name, df):
     """Guarda un DataFrame en un archivo CSV con columnas en orden alfabético."""
     if df is not None:
         df = df[sorted(df.columns)]
-        df.to_csv(f'data/{name}.csv')
+        df.to_csv(f'{name}.csv')
 
 # URL base para los datos
 base_url = 'https://smn.conagua.gob.mx/tools/RESOURCES/com_archivo_datos_resumenes'
