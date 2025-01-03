@@ -24,7 +24,7 @@ def choropleth_map(data, geojson_data, title, color_scale, value_label="Value"):
     fig = px.choropleth(
         data,
         geojson=geojson_data,
-        locations="State",
+        locations="Estado",
         featureidkey="properties.ESTADO",
         color="Value",
         color_continuous_scale=color_scale,
@@ -38,7 +38,7 @@ def choropleth_map(data, geojson_data, title, color_scale, value_label="Value"):
 
 def choropleth_data(data, year, state_mapping, aggregation="mean"):
     """
-    Filtra y procesa datos para mapas, devolviendo un DataFrame con columnas 'State' y 'Value'.
+    Filtra y procesa datos para mapas, devolviendo un DataFrame con columnas 'Estado' y 'Value'.
 
     Parameters:
     - data: DataFrame con datos de los estados
@@ -56,8 +56,8 @@ def choropleth_data(data, year, state_mapping, aggregation="mean"):
         processed_data = filtered_data.sum(axis=0).reset_index()
     
     processed_data.columns = ["Abbreviation", "Value"]
-    processed_data["State"] = processed_data["Abbreviation"].map(state_mapping)
-    return processed_data[["State", "Value"]]
+    processed_data["Estado"] = processed_data["Abbreviation"].map(state_mapping)
+    return processed_data[["Estado", "Value"]]
 
 
 # ----- FUNCIONES PARA GRÁFICAS -----
