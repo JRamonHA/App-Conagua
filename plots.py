@@ -12,7 +12,7 @@ def choropleth_map(data, geojson_data, title, color_scale, value_label="Value"):
     Genera un mapa choropleth con Plotly Express.
 
     Parameters:
-    - data: DataFrame con las columnas ['State', 'Value']
+    - data: DataFrame con las columnas ['Estado', 'Value']
     - geojson_data: GeoJSON con la geometría de los estados
     - title: Título del mapa
     - color_scale: Escala de color para el mapa
