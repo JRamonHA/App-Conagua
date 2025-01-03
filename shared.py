@@ -27,4 +27,4 @@ def state_abbreviations(data):
     """
     Mapear las abreviaturas de los estados a sus nombres completos.
     """
-    return data.rename(columns={"Abbreviation": "State"}).replace({"State": STATE_MAPPING})
+    return data.rename(columns={"Abbreviation": "Estado"}).replace({"Estado": STATE_MAPPING})
