@@ -1,6 +1,6 @@
 # Ignorar el cache de Python
 __pycache__/
-*.pyc
+*.py[cod]
 
 # Ignorar entornos virtuales
 env/
