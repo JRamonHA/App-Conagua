@@ -401,6 +401,7 @@ def server(input: Inputs, output, session):
     @render.data_frame
     def tmean_data():
         df = tmean_date_filter().reset_index()
+        df['time'] = df['time'].dt.strftime('%Y-%m-%d')
         return df
 
     @render.download(filename=lambda: "data_Tmean.csv")
@@ -424,6 +425,7 @@ def server(input: Inputs, output, session):
     @render.data_frame
     def tmax_data():
         df = tmax_date_filter().reset_index()
+        df['time'] = df['time'].dt.strftime('%Y-%m-%d')
         return df
 
     @render.download(filename=lambda: "data_Tmax.csv")
@@ -447,6 +449,7 @@ def server(input: Inputs, output, session):
     @render.data_frame
     def tmin_data():
         df = tmin_date_filter().reset_index()
+        df['time'] = df['time'].dt.strftime('%Y-%m-%d')
         return df
 
     @render.download(filename=lambda: "data_Tmin.csv")
