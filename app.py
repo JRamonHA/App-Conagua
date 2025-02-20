@@ -18,6 +18,18 @@ data_Tmax = pd.read_csv(Path(__file__).parent / "data_TMax.csv", index_col="time
 data_Tmin = pd.read_csv(Path(__file__).parent / "data_TMin.csv", index_col="time", parse_dates=True)
 GEOJSON_DATA = json.load((Path(__file__).parent / "Mexico.json").open(encoding="utf-8"))
 
+rain_start = data_Lluv.index.min().strftime("%Y-%m-%d")
+rain_end = data_Lluv.index.max().strftime("%Y-%m-%d")
+
+tmean_start = data_Tmean.index.min().strftime("%Y-%m-%d")
+tmean_end = data_Tmean.index.max().strftime("%Y-%m-%d")
+
+tmax_start = data_Tmax.index.min().strftime("%Y-%m-%d")
+tmax_end = data_Tmax.index.max().strftime("%Y-%m-%d")
+
+tmin_start = data_Tmin.index.min().strftime("%Y-%m-%d")
+tmin_end = data_Tmin.index.max().strftime("%Y-%m-%d")
+
 # ----- INTERFAZ DE USUARIO -----
 app_ui = ui.page_navbar(
     ui.nav_spacer(),
@@ -52,6 +64,7 @@ app_ui = ui.page_navbar(
                     ui.download_link("rain_download", "Descargar archivo",
                                      icon=faicons.icon_svg("download"), class_="btn btn-primary btn-sm"),
                                      class_="d-flex justify-content-between align-items-center"),
+                    ui.input_date_range("rain_daterange", "Rango de fechas", start=rain_start, end=rain_end),
                     ui.output_data_frame("rain_data")
                 ),
             ),
@@ -89,6 +102,7 @@ app_ui = ui.page_navbar(
                     ui.download_link("tmean_download", "Descargar archivo",
                                      icon=faicons.icon_svg("download"), class_="btn btn-primary btn-sm"),
                                      class_="d-flex justify-content-between align-items-center"),
+                    ui.input_date_range("tmean_daterange", "Rango de fechas", start=tmean_start, end=tmean_end),
                     ui.output_data_frame("tmean_data")
                 ),
             ),
@@ -126,6 +140,7 @@ app_ui = ui.page_navbar(
                     ui.download_link("tmax_download", "Descargar archivo",
                                      icon=faicons.icon_svg("download"), class_="btn btn-primary btn-sm"),
                                      class_="d-flex justify-content-between align-items-center"),
+                    ui.input_date_range("tmax_daterange", "Rango de fechas", start=tmax_start, end=tmax_end),
                     ui.output_data_frame("tmax_data")
                 ),
             ),
@@ -163,6 +178,7 @@ app_ui = ui.page_navbar(
                     ui.download_link("tmin_download", "Descargar archivo",
                                      icon=faicons.icon_svg("download"), class_="btn btn-primary btn-sm"),
                                      class_="d-flex justify-content-between align-items-center"),
+                    ui.input_date_range("tmin_daterange", "Rango de fechas", start=tmin_start, end=tmin_end),
                     ui.output_data_frame("tmin_data")
                 ),
             ),
@@ -347,68 +363,97 @@ def server(input: Inputs, output, session):
         return heatmap(data, title, "blues", "Temperatura (°C)")
 
     # --- DATAFRAME ---
-    @render.data_frame
-    def rain_data():
-        df = data_Lluv.reset_index()
-        return df
-
     @render.text
     def rain_title():
         return "data_Lluv.csv"
-    
-    @render.download(filename=lambda: "data_Lluv.csv")
-    def rain_download():
-        df = data_Lluv.reset_index()
-        with io.StringIO() as buf:
-            df.to_csv(buf, index=False)
-            yield buf.getvalue().encode()
+
+    @reactive.calc()
+    def rain_date_filter() -> pd.DataFrame:
+        start_date, end_date = input.rain_daterange()
+        start_date = pd.to_datetime(start_date)
+        end_date = pd.to_datetime(end_date)
+        return data_Lluv.loc[(data_Lluv.index >= start_date) & (data_Lluv.index <= end_date)]
 
     @render.data_frame
-    def tmean_data():
-        df = data_Tmean.reset_index()
+    def rain_data():
+        df = rain_date_filter().reset_index()
+        df['time'] = df['time'].dt.strftime('%Y-%m-%d')
         return df
+
+    @render.download(filename=lambda: "data_Lluv.csv")
+    def rain_download():
+        df_filtrado = rain_date_filter().reset_index()
+        with io.StringIO() as buf:
+            df_filtrado.to_csv(buf, index=False)
+            yield buf.getvalue().encode()
 
     @render.text
     def tmean_title():
         return "data_Tmean.csv"
-    
-    @render.download(filename=lambda: "data_Tmean.csv")
-    def tmean_download():
-        df = data_Tmean.reset_index()
-        with io.StringIO() as buf:
-            df.to_csv(buf, index=False)
-            yield buf.getvalue().encode()
+
+    @reactive.calc()
+    def tmean_date_filter() -> pd.DataFrame:
+        start_date, end_date = input.tmean_daterange()
+        start_date = pd.to_datetime(start_date)
+        end_date = pd.to_datetime(end_date)
+        return data_Tmean.loc[(data_Tmean.index >= start_date) & (data_Tmean.index <= end_date)]
 
     @render.data_frame
-    def tmax_data():
-        df = data_Tmax.reset_index()
+    def tmean_data():
+        df = tmean_date_filter().reset_index()
         return df
+
+    @render.download(filename=lambda: "data_Tmean.csv")
+    def tmean_download():
+        df_filtrado = tmean_date_filter().reset_index()
+        with io.StringIO() as buf:
+            df_filtrado.to_csv(buf, index=False)
+            yield buf.getvalue().encode()
 
     @render.text
     def tmax_title():
         return "data_Tmax.csv"
-    
-    @render.download(filename=lambda: "data_Tmax.csv")
-    def tmax_download():
-        df = data_Tmax.reset_index()
-        with io.StringIO() as buf:
-            df.to_csv(buf, index=False)
-            yield buf.getvalue().encode()
+
+    @reactive.calc()
+    def tmax_date_filter() -> pd.DataFrame:
+        start_date, end_date = input.tmax_daterange()
+        start_date = pd.to_datetime(start_date)
+        end_date = pd.to_datetime(end_date)
+        return data_Tmax.loc[(data_Tmax.index >= start_date) & (data_Tmax.index <= end_date)]
 
     @render.data_frame
-    def tmin_data():
-        df = data_Tmin.reset_index()
+    def tmax_data():
+        df = tmax_date_filter().reset_index()
         return df
+
+    @render.download(filename=lambda: "data_Tmax.csv")
+    def tmax_download():
+        df_filtrado = tmax_date_filter().reset_index()
+        with io.StringIO() as buf:
+            df_filtrado.to_csv(buf, index=False)
+            yield buf.getvalue().encode()
 
     @render.text
     def tmin_title():
         return "data_Tmin.csv"
-    
+
+    @reactive.calc()
+    def tmin_date_filter() -> pd.DataFrame:
+        start_date, end_date = input.tmin_daterange()
+        start_date = pd.to_datetime(start_date)
+        end_date = pd.to_datetime(end_date)
+        return data_Tmin.loc[(data_Tmin.index >= start_date) & (data_Tmin.index <= end_date)]
+
+    @render.data_frame
+    def tmin_data():
+        df = tmin_date_filter().reset_index()
+        return df
+
     @render.download(filename=lambda: "data_Tmin.csv")
     def tmin_download():
-        df = data_Tmin.reset_index()
+        df_filtrado = tmin_date_filter().reset_index()
         with io.StringIO() as buf:
-            df.to_csv(buf, index=False)
+            df_filtrado.to_csv(buf, index=False)
             yield buf.getvalue().encode()
 
 # ----- EJECUCIÓN DE LA APLICACIÓN -----
